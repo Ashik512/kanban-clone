@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AddTodoAction } from "../redux/actions/todoActions";
 
@@ -96,6 +96,10 @@ export default function useTodo() {
     }
     setTodo("");
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return {
     todos,

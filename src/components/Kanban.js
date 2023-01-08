@@ -2,16 +2,16 @@ import React from "react";
 import Todo from "./Todo";
 
 function Kanban({
-    todos,
-    handleEdit,
-    handleDelete,
-    dragStarted,
-    draggingOverInTodo,
-    draggingOverInProgress,
-    draggingOverInCompleted,
-    dragDroppedInTodo,
-    dragDroppedInProgress,
-    dragDroppedInCompleted,
+  todos,
+  handleEdit,
+  handleDelete,
+  dragStarted,
+  draggingOverInTodo,
+  draggingOverInProgress,
+  draggingOverInCompleted,
+  dragDroppedInTodo,
+  dragDroppedInProgress,
+  dragDroppedInCompleted,
 }) {
   return (
     <div className="todo">
