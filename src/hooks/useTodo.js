@@ -1,105 +1,107 @@
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import uuid4 from "uuid4";
-import datas from "../datas/mockData";
-//import { AddTodoAction } from "../redux/actions/todoActions";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AddTodoAction,
+  deleleTodo,
+  transferTodo,
+  updateTodo,
+} from "../redux/actions/todoActions";
 
 export default function useTodo() {
-  const [todos, setTodos] = useState(datas);
   const [todo, setTodo] = useState("");
   const [editId, setEditId] = useState(null);
   const inputElement = useRef();
+
   const dispatch = useDispatch();
+  const todos = useSelector((state) => state.Todos);
 
-  //const todos = useSelector((state) => state.Todos);
-
-  function dragStarted(e, id) {
+  const dragStarted = (e, id) => {
     console.log("drag started with Id: ", id);
     e.dataTransfer.setData("tId", id);
-  }
+  };
 
-  function draggingOverInTodo(e) {
+  const draggingOverInTodo = (e) => {
     e.preventDefault();
     console.log("Draging over In Todo");
-  }
+  };
 
-  function draggingOverInProgress(e) {
+  const draggingOverInProgress = (e) => {
     e.preventDefault();
     console.log("Draging over In Progress");
-  }
+  };
 
-  function draggingOverInCompleted(e) {
+  const draggingOverInCompleted = (e) => {
     e.preventDefault();
     console.log("Draging over In Completed");
-  }
+  };
 
-  function transferTodo(id, status) {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id == id) {
-          return {
-            ...todo,
-            status: status,
-          };
-        } else {
-          return todo;
-        }
-      })
-    );
-  }
-
-  function dragDroppedInTodo(e) {
+  const dragDroppedInTodo = (e) => {
     e.preventDefault();
     console.log("You have dropped In Todo");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
-    transferTodo(tId, "todo");
-  }
+    // tranfering todo
+    dispatch(
+      transferTodo({
+        id: tId,
+        status: "todo",
+      })
+    );
+  };
 
-  function dragDroppedInProgress(e) {
+  const dragDroppedInProgress = (e) => {
     e.preventDefault();
     console.log("You have dropped In Progress");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
-    transferTodo(tId, "in-progress");
-  }
+    // tranfering todo
+    dispatch(
+      transferTodo({
+        id: tId,
+        status: "progress",
+      })
+    );
+  };
 
-  function dragDroppedInCompleted(e) {
+  const dragDroppedInCompleted = (e) => {
     e.preventDefault();
     console.log("You have dropped completed");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
-    transferTodo(tId, "done");
-  }
+    dispatch(
+      transferTodo({
+        id: tId,
+        status: "done",
+      })
+    );
+  };
 
-  function handleEdit(id) {
+  const handleEdit = (id) => {
     const { title } = todos.find((todo) => todo.id == id);
     inputElement.current.focus();
     setTodo(title);
     setEditId(id);
-  }
+  };
 
-  function handleDelete(id) {
-    setTodos(todos.filter((todo) => todo.id != id));
-    if (id == editId) {
-      setTodo("");
-      setEditId(null);
+  const handleDelete = (id) => {
+    if (window.confirm("Do you really want to delete ?")) {
+      // if user deleted selected todo
+      if (id == editId) {
+        setTodo("");
+        setEditId(null);
+      }
+      //deleting from redux store
+      dispatch(deleleTodo(id));
     }
-  }
+  };
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (editId) {
-      setTodos(
-        todos.map((t) => {
-          if (t.id == editId) {
-            return {
-              ...t,
-              title: todo,
-            };
-          } else {
-            return t;
-          }
+      dispatch(
+        updateTodo({
+          id: editId,
+          title: todo,
         })
       );
       setEditId(null);
@@ -108,18 +110,14 @@ export default function useTodo() {
         alert("Please Write Something first!");
         return;
       }
-      // dispatch(AddTodoAction(todo));
-      setTodos([
-        ...todos,
-        {
-          id: uuid4(),
-          title: todo,
-          status: "todo",
-        },
-      ]);
+      dispatch(AddTodoAction(todo));
     }
     setTodo("");
-  }
+  };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return {
     todos,
