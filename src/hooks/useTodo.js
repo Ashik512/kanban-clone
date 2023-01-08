@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import uuid4 from "uuid4";
 import datas from "../datas/mockData";
-//import { AddTodoAction } from "../redux/actions/todoActions";
 
 export default function useTodo() {
   const [todos, setTodos] = useState(datas);
@@ -10,8 +9,6 @@ export default function useTodo() {
   const [editId, setEditId] = useState(null);
   const inputElement = useRef();
   const dispatch = useDispatch();
-
-  //const todos = useSelector((state) => state.Todos);
 
   function dragStarted(e, id) {
     console.log("drag started with Id: ", id);
@@ -108,7 +105,6 @@ export default function useTodo() {
         alert("Please Write Something first!");
         return;
       }
-      // dispatch(AddTodoAction(todo));
       setTodos([
         ...todos,
         {

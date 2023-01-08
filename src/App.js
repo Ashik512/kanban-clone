@@ -23,9 +23,7 @@ function App() {
     dragDroppedInCompleted,
   } = useTodo();
 
-  // const Todos = useSelector((state) => state.Todos);
-  // const {todos} = Todos
-  // console.log(todos);
+  // Basic Kanban-app with React State
 
   return (
     <div className="app">
