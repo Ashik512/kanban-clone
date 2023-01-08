@@ -6,9 +6,7 @@ function Kanban({
   handleEdit,
   handleDelete,
   dragStarted,
-  draggingOverInTodo,
-  draggingOverInProgress,
-  draggingOverInCompleted,
+  draggingOver,
   dragDroppedInTodo,
   dragDroppedInProgress,
   dragDroppedInCompleted,
@@ -17,7 +15,7 @@ function Kanban({
     <div className="todo">
       {/* Todo */}
       <div
-        onDragOver={(e) => draggingOverInTodo(e)}
+        onDragOver={(e) => draggingOver(e)}
         onDrop={(e) => dragDroppedInTodo(e)}
       >
         <span>Todo</span>
@@ -37,7 +35,7 @@ function Kanban({
       </div>
       {/* In progress */}
       <div
-        onDragOver={(e) => draggingOverInProgress(e)}
+        onDragOver={(e) => draggingOver(e)}
         onDrop={(e) => dragDroppedInProgress(e)}
       >
         <span>In Progress</span>
@@ -57,7 +55,7 @@ function Kanban({
       </div>
       {/* Completed */}
       <div
-        onDragOver={(e) => draggingOverInCompleted(e)}
+        onDragOver={(e) => draggingOver(e)}
         onDrop={(e) => dragDroppedInCompleted(e)}
       >
         <span>Completed</span>

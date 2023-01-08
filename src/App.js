@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import "./App.css";
 import Kanban from "./components/Kanban";
 import TodoAdd from "./components/TodoAdd";
@@ -15,9 +14,7 @@ function App() {
     handleDelete,
     handleEdit,
     dragStarted,
-    draggingOverInTodo,
-    draggingOverInProgress,
-    draggingOverInCompleted,
+    draggingOver,
     dragDroppedInTodo,
     dragDroppedInProgress,
     dragDroppedInCompleted,
@@ -38,9 +35,7 @@ function App() {
         handleDelete={handleDelete}
         handleEdit={handleEdit}
         dragStarted={dragStarted}
-        draggingOverInTodo={draggingOverInTodo}
-        draggingOverInProgress={draggingOverInProgress}
-        draggingOverInCompleted={draggingOverInCompleted}
+        draggingOver={draggingOver}
         dragDroppedInTodo={dragDroppedInTodo}
         dragDroppedInProgress={dragDroppedInProgress}
         dragDroppedInCompleted={dragDroppedInCompleted}

@@ -16,30 +16,16 @@ export default function useTodo() {
   const todos = useSelector((state) => state.Todos);
 
   const dragStarted = (e, id) => {
-    console.log("drag started with Id: ", id);
     e.dataTransfer.setData("tId", id);
   };
 
-  const draggingOverInTodo = (e) => {
+  const draggingOver = (e) => {
     e.preventDefault();
-    console.log("Draging over In Todo");
-  };
-
-  const draggingOverInProgress = (e) => {
-    e.preventDefault();
-    console.log("Draging over In Progress");
-  };
-
-  const draggingOverInCompleted = (e) => {
-    e.preventDefault();
-    console.log("Draging over In Completed");
   };
 
   const dragDroppedInTodo = (e) => {
     e.preventDefault();
-    console.log("You have dropped In Todo");
     const tId = e.dataTransfer.getData("tId");
-    console.log("tId", tId);
     // tranfering todo
     dispatch(
       transferTodo({
@@ -51,7 +37,6 @@ export default function useTodo() {
 
   const dragDroppedInProgress = (e) => {
     e.preventDefault();
-    console.log("You have dropped In Progress");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
     // tranfering todo
@@ -65,7 +50,6 @@ export default function useTodo() {
 
   const dragDroppedInCompleted = (e) => {
     e.preventDefault();
-    console.log("You have dropped completed");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
     dispatch(
@@ -97,7 +81,7 @@ export default function useTodo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (editId) {
+    if (editId && todo.trim() != "") {
       dispatch(
         updateTodo({
           id: editId,
@@ -106,7 +90,7 @@ export default function useTodo() {
       );
       setEditId(null);
     } else {
-      if (!todo) {
+      if (!todo || todo.trim() == "") {
         alert("Please Write Something first!");
         return;
       }
@@ -126,9 +110,7 @@ export default function useTodo() {
     editId,
     inputElement,
     dragStarted,
-    draggingOverInTodo,
-    draggingOverInProgress,
-    draggingOverInCompleted,
+    draggingOver,
     dragDroppedInTodo,
     dragDroppedInProgress,
     dragDroppedInCompleted,
