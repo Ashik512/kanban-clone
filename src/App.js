@@ -23,10 +23,6 @@ function App() {
     dragDroppedInCompleted,
   } = useTodo();
 
-  // const Todos = useSelector((state) => state.Todos);
-  // const {todos} = Todos
-  // console.log(todos);
-
   return (
     <div className="app">
       {/* Add Todo input field */}
