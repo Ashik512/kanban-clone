@@ -1,26 +1,41 @@
-import uuid4 from "uuid4";
 import { ActionTypes } from "../constants/action-types";
 
-const initialState = !localStorage.todos
-  ? [
-      {
-        id: uuid4(),
-        title: "JS",
-        status: "todo",
-      },
-    ]
-  : JSON.parse(localStorage.todos);
+const initialState = !localStorage.todos ? [] : JSON.parse(localStorage.todos);
 
 export const TodoReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.ADD_TODO:
       return [...state, action.payload];
-    case "ALL_TODO":
-      return action.payload;
+
     case ActionTypes.DELETE_TODO:
-      return state;
+      return state.filter((todo) => todo.id != action.payload.id);
+
+    case ActionTypes.UPDATE_TODO:
+      return state.map((todo) => {
+        const { id, title } = action.payload;
+        if (todo.id == id) {
+          return {
+            ...todo,
+            title,
+          };
+        } else {
+          return todo;
+        }
+      });
+
     case ActionTypes.TOGGLE_TODO:
-      return state;
+      return state.map((todo) => {
+        const { id, status } = action.payload;
+        if (todo.id == id) {
+          return {
+            ...todo,
+            status: status,
+          };
+        } else {
+          return todo;
+        }
+      });
+
     default:
       return state;
   }

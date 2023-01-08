@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddTodoAction } from "../redux/actions/todoActions";
+import {
+  AddTodoAction,
+  deleleTodo,
+  transferTodo,
+  updateTodo,
+} from "../redux/actions/todoActions";
 
 export default function useTodo() {
   const [todo, setTodo] = useState("");
@@ -30,27 +35,18 @@ export default function useTodo() {
     console.log("Draging over In Completed");
   };
 
-  const transferTodo = (id, status) => {
-    // setTodos(
-    //   todos.map((todo) => {
-    //     if (todo.id == id) {
-    //       return {
-    //         ...todo,
-    //         status: status,
-    //       };
-    //     } else {
-    //       return todo;
-    //     }
-    //   })
-    // );
-  };
-
   const dragDroppedInTodo = (e) => {
     e.preventDefault();
     console.log("You have dropped In Todo");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
-    transferTodo(tId, "todo");
+    // tranfering todo
+    dispatch(
+      transferTodo({
+        id: tId,
+        status: "todo",
+      })
+    );
   };
 
   const dragDroppedInProgress = (e) => {
@@ -58,7 +54,13 @@ export default function useTodo() {
     console.log("You have dropped In Progress");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
-    transferTodo(tId, "in-progress");
+    // tranfering todo
+    dispatch(
+      transferTodo({
+        id: tId,
+        status: "progress",
+      })
+    );
   };
 
   const dragDroppedInCompleted = (e) => {
@@ -66,7 +68,12 @@ export default function useTodo() {
     console.log("You have dropped completed");
     const tId = e.dataTransfer.getData("tId");
     console.log("tId", tId);
-    transferTodo(tId, "done");
+    dispatch(
+      transferTodo({
+        id: tId,
+        status: "done",
+      })
+    );
   };
 
   const handleEdit = (id) => {
@@ -77,16 +84,27 @@ export default function useTodo() {
   };
 
   const handleDelete = (id) => {
-    // setTodos(todos.filter((todo) => todo.id != id));
-    if (id == editId) {
-      setTodo("");
-      setEditId(null);
+    if (window.confirm("Do you really want to delete ?")) {
+      // if user deleted selected todo
+      if (id == editId) {
+        setTodo("");
+        setEditId(null);
+      }
+      //deleting from redux store
+      dispatch(deleleTodo(id));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editId) {
+      dispatch(
+        updateTodo({
+          id: editId,
+          title: todo,
+        })
+      );
+      setEditId(null);
     } else {
       if (!todo) {
         alert("Please Write Something first!");

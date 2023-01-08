@@ -43,7 +43,7 @@ function Kanban({
         <span>In Progress</span>
         {todos?.map(
           (data, index) =>
-            data.status === "in-progress" && (
+            data.status === "progress" && (
               <Todo
                 key={index}
                 todo={data}
