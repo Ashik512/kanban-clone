@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AddTodoAction,
-  deleleTodo,
+  deleteTodo,
   transferTodo,
   updateTodo,
 } from "../redux/actions/todoActions";
@@ -75,7 +75,7 @@ export default function useTodo() {
         setEditId(null);
       }
       //deleting from redux store
-      dispatch(deleleTodo(id));
+      dispatch(deleteTodo(id));
     }
   };
 

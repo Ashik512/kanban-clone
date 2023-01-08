@@ -8,7 +8,7 @@ export const AddTodoAction = (todo) => (dispatch) => {
   });
 };
 
-export const deleleTodo = (id) => (dispatch) => {
+export const deleteTodo = (id) => (dispatch) => {
   dispatch({
     type: ActionTypes.DELETE_TODO,
     payload: { id },
